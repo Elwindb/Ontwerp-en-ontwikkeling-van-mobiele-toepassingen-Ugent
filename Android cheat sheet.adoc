@@ -1,0 +1,39 @@
+Android cheat sheet
+------------------
+Databinding
+~~~~~~~~~~~
+* Binding class:
++
+[source,java]
+-----------------
+super.onCreate(savedInstanceState);
+
+ctivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+QuizMaster qm = QuizMaster.getInstance();
+binding.setQuestion(qm.getCurrentQuestion());
+-----------------
+
+* Expression language:
++
+[source,java]
+-----------------
+android:text="@{String.valueOf(index + 1)}"
+android:visibility="@{age > 13 ? View.GONE : View.VISIBLE}"
+
+-----------------
+* Events:
++
+[source,java]
+-----------------
+public void onClickFriend(View view) { ... }
+android:onClick="@{handlers::onClickFriend}"
+
+-----------------
+* Two-way data binding:
++
+[source,java]
+-----------------
+android:text="@={Converter.dateToString(viewmodel.birthDate)}"
+-----------------
+
+
