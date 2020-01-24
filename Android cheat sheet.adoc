@@ -44,6 +44,12 @@ ViewModel
 -----------------
 QuoteAppViewModel model = ViewModelProviders.of(this).get(QuoteAppViewModel.class);
 b.setLifecycleOwner(this);
+
+//New version
+ViewModelProvider.Factory factory = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication());
+ViewModelProvider viewModelProvider = new ViewModelProvider(this, factory);
+MainViewModel vm = viewModelProvider.get(MainViewModel.class);
+b.setLifecycleOwner(this)
 -----------------
 * Viewmodel class
 +
