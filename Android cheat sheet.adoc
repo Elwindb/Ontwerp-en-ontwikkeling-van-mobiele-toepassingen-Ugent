@@ -36,4 +36,23 @@ android:onClick="@{handlers::onClickFriend}"
 android:text="@={Converter.dateToString(viewmodel.birthDate)}"
 -----------------
 
+ViewModel
+~~~~~~~~~
+* Get Viewmodel
++
+[source,java]
+-----------------
+QuoteAppViewModel model = ViewModelProviders.of(this).get(QuoteAppViewModel.class);
+b.setLifecycleOwner(this);
+-----------------
+* Viewmodel class
++
+[source,java]
+-----------------
+public class QuoteAppViewModel extends AndroidViewModel {
+     public QuoteAppViewModel(@NonNull Application application) {
+        super(application);
+    }
+}
 
+-----------------
