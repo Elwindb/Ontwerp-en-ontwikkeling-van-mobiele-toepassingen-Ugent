@@ -62,3 +62,81 @@ public class QuoteAppViewModel extends AndroidViewModel {
 }
 
 -----------------
+
+Room
+~~~~
+* Dao
++
+[source,java]
+-----------------
+@Dao
+public interface TrafficDao {
+
+    @Insert
+    void insertAll(TrafficNotification... trafficNotifications);
+    @Query("DELETE from trafficnotification")
+    void deleteALl();
+    @Query("SELECT * FROM trafficnotification")
+    List<TrafficNotification> getAll();
+    @Delete
+    void delete(TrafficNotification trafficNotification);
+
+}
+-----------------
+* PoCo
++
+[source,java]
+-----------------
+@Entity
+public class TrafficNotification {
+    @PrimaryKey
+    @NonNull
+    private String id;
+    private String name;
+
+    @Ignore
+    public TrafficNotification(String name) {
+        this(UUID.randomUUID().toString(), name);
+    }
+
+    public TrafficNotification(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+-----------------
+* AppDatabase
++
+[source,java]
+-----------------
+@Database(entities = {TrafficNotification.class}, version = 1)
+public abstract class TrafficNotificationDataBase extends RoomDatabase {
+    private static final TrafficNotificationDataBase db = null;
+    public abstract TrafficDao trafficDao();
+
+    static TrafficNotificationDataBase getDatabase(Context context){
+        if(db == null){
+            TrafficNotificationDataBase db = Room.databaseBuilder(context, TrafficNotificationDataBase.class, "trafficNotification").allowMainThreadQueries().build();
+            return db;
+        }else{
+            return db;
+        }
+    }
+}
+-----------------
+* ViewModel
++
+[source,java]
+-----------------
+	AppDatabase db = AppDatabase.getDatabase(application);
+    TrafficNotificationDao dao = db.trafficNotificationDao();
+    dao.deleteALl();
+    try{
+        JSONObject json = JsonUtils.loadJSONFromAsset(application, "verkeersmeldingen.json");
+        List<TrafficNotification> notifications = JsonUtils.parseJSON(json);
+        dao.insertAll(notifications.toArray(new TrafficNotification[0]));
+    }catch(IOException e) {e.printStackTrace();
+    }catch(JSONException e) {e.printStackTrace();
+        }
+    List<TrafficNotification> allTrafficNotifications = dao.getAll();
+-----------------
