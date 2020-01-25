@@ -140,3 +140,22 @@ public abstract class TrafficNotificationDataBase extends RoomDatabase {
         }
     List<TrafficNotification> allTrafficNotifications = dao.getAll();
 -----------------
+
+Navigation
+~~~~~~~~~~
+* Navigate
++
+[source,java]
+-----------------
+public void ClickNavigate(View view){
+	Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_detailFragment2);
+}
+-----------------
+* onCreateView
++
+[source,java]
+-----------------
+FragmentMainBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
+View v = binding.getRoot();
+return v;
+-----------------
