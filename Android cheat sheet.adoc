@@ -212,3 +212,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public int getItemCount() {return mDataset.size();}
 }
 -----------------
+* Connect layout manager
++
+[source,java]
+-----------------
+ FragmentMainBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
+ TrafficViewmodel vm  = ViewModelProviders.of(this).get(TrafficViewmodel.class);
+ binding.setTrafficVM(vm);
+ View v = binding.getRoot();
+ RecyclerView recyclerView = v.findViewById(R.id.my_recycler_view);
+ recyclerView.setHasFixedSize(true);
+ //use a linear layout manager
+ LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
+ recyclerView.setLayoutManager(layoutManager);
+ // specify an adapter (see also next example)
+ MyAdapter mAdapter = new MyAdapter(vm.getTrafficNotifications(), this);
+ recyclerView.setAdapter(mAdapter);
+ return v;
+-----------------
