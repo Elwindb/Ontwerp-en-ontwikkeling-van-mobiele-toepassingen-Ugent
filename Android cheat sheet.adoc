@@ -159,3 +159,56 @@ FragmentMainBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragmen
 View v = binding.getRoot();
 return v;
 -----------------
+
+RecyclerView
+~~~~~~~~~~~~
+* layout
++
+[source,java]
+-----------------
+<androidx.recyclerview.widget.RecyclerView
+	android:id="@+id/my_recycler_view"
+	android:scrollbars="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"/>
+-----------------
+* RecyclerView element
++
+[source,java]
+-----------------
+android:onClick="@{ (view) -> vm.OnclickTrafficNotification(view, trafficItem) }">
+-----------------
+* Recycler adapter
++
+[source,java]
+-----------------
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+    private List<TrafficNotification> mDataset;
+    Fragment frag;
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        RecyclerViewElementBinding binding;
+        public MyViewHolder(RecyclerViewElementBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+    }
+    public MyAdapter(List<TrafficNotification> myDataset, Fragment frag) {
+        mDataset = myDataset;
+        this.frag = frag;
+    }
+    @Override
+    public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerViewElementBinding binding = 	DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.recycler_view_element, parent, false);
+        TrafficViewmodel model = ViewModelProviders.of(frag).get(TrafficViewmodel.class);
+        binding.setVm(model);
+        MyViewHolder vh = new MyViewHolder(binding);
+        return vh;
+    }
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        holder.binding.setTrafficItem(this.mDataset.get(position));
+    }
+    @Override
+    public int getItemCount() {return mDataset.size();}
+}
+-----------------
